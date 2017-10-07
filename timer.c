@@ -1,32 +1,27 @@
 /*
  * timer.c
  *
- *  Created on: Oct 7, 2017
- *      Author: Internet
+ *  Created on: Oct 4, 2017
+ *      Author: zach
  */
 
-// Setup timer A0. Stop the timer, clear out any timer state and reset all counters.
-// Set the clock the timer uses and enable interrupts.
+#include "timer.h"
+#include <stdio.h>
+#include <msp430.h>
+#include <stdint.h>
+
 void timerA0_init(){
-
+    TA0CTL |= TACLR; //Clear clock
+    TA0CCR0 = 0;//Stop timer
+    TA0CCTL0 = CCIE; // TACCR0 interrupt enabled
+    TA0CTL = TASSEL__ACLK | MC__UP; //Select src and mode
 }
 
-// Reset timer A0’s counters, but do not reset the peripheral.
-// The timer can be in the middle of execution when it is reset.
 void timerA0_reset(){
-
+    TA0R = 0b0000000000000000; //Set clock to 0
 }
 
-// Set the period that the timer will fire.
-// A timer interrupt should be fired for each timer period.
 void timerA0_set(uint16_t period){
-
-}
-
-// Interrupt handler for timer A0. This one can go in main.c.
-// Note that global variables modified in interrupt handlers must be declared volatile.
-// For more information about the volatile keyword check out https://barrgroup.com/Embedded-Systems/How-To/C-Volatile-Keyword
-#pragma vector = TIMER0_A0_VECTOR
-__interrupt void Timer0_A0_ISR (void){
-
+    TA0CCR0 = period;
+    __bis_SR_register(LPM0_bits + GIE);     // Enter LPM0 w/ interrupt
 }

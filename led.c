@@ -1,29 +1,31 @@
 /*
- * led.cpp
+ * led.c
  *
- *  Created on: Oct 7, 2017
- *      Author: Internet
+ *  Created on: Oct 4, 2017
+ *      Author: zach
  */
+
 #include "led.h"
+#include <stdio.h>
+#include <msp430.h>
 
-// Setup the LED so it is in output mode and off.
+
 void led_init(){
+    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
     PM5CTL0 &= ~LOCKLPM5;//PMM_unlockLPM5(), unlocks pin settings
+
     P3DIR |= 0b00100000; //set port 3 pin 5 to output mode
-    led_off();
+    P3OUT  = 0b00100000; //set port 3 pin 5 to high (LED is off)
 }
 
-// Turn on the LED.
 void led_on(){
-    P3OUT &= 0b11011111; //set port 3 pin 5 low, LED is active-low. LED on board on.
+    P3OUT  = 0b00000000; //set port 3 pin 5 to low (LED is on)
 }
 
-// Turn off the LED.
 void led_off(){
-    P3OUT |= 0b00100000; //set port 3 pin 5 high, LED is active-low. LED on board off.
+    P3OUT  = 0b00100000; //set port 3 pin 5 to high (LED is off)
 }
 
-// Toggle the state of the LED.
 void led_toggle(){
-    P3OUT ^= BIT5;
+    P3OUT ^= 0b00100000; //toggle port 3 pin 5
 }
