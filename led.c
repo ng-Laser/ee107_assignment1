@@ -19,11 +19,11 @@ void led_init(){
 }
 
 void led_on(){
-    P3OUT  = 0b00000000; //set port 3 pin 5 to low (LED is on)
+    P3OUT &= 0b11011111; //set port 3 pin 5 to low (LED is on)
 }
 
 void led_off(){
-    P3OUT  = 0b00100000; //set port 3 pin 5 to high (LED is off)
+    P3OUT |= 0b00100000; //set port 3 pin 5 to high (LED is off)
 }
 
 void led_toggle(){
