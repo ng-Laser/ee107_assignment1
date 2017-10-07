@@ -2,7 +2,7 @@
  * led.h
  *
  *  Created on: Oct 7, 2017
- *      Author: Internet
+ *      Author: zach & noa
  */
 
 #ifndef LED_H_

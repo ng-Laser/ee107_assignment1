@@ -2,7 +2,7 @@
  * led.c
  *
  *  Created on: Oct 4, 2017
- *      Author: zach
+ *      Author: zach & noa
  */
 
 #include "led.h"
